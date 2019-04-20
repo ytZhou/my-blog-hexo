@@ -2,7 +2,7 @@ clone_depth: 5
 
 environment:
   access_token:
-    secure: 30be180287b43c783d5f7cadf8691214e7b88edb 
+    secure: y6prA1/R/PTOi2faWPbGQ0JsZSW1KgRrzhL/xJjA0oqJEqQNIJeTvCNL78/KGn2S
 
 install:
   - node --version
@@ -21,7 +21,7 @@ on_success:
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "%GIT_USER_EMAIL%"
   - git config --global user.name "%GIT_USER_NAME%"
-  - git clone --depth 5 -q --branch=%TARGET_BRANCH% %STATIC_SITE_REPO% %TEMP%\static-site
+  - git clone  --branch=%TARGET_BRANCH% %STATIC_SITE_REPO% %TEMP%\static-site
   - cd %TEMP%\static-site
   - del * /f /q
   - for /d %%p IN (*) do rmdir "%%p" /s /q
