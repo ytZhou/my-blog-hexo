@@ -1,8 +1,15 @@
 clone_depth: 5
 
+version: 1.0.{build}
+
 environment:
   access_token:
     secure: y6prA1/R/PTOi2faWPbGQ0JsZSW1KgRrzhL/xJjA0oqJEqQNIJeTvCNL78/KGn2S
+
+  STATIC_SITE_REPO: https://github.com/ytZhou/ytZhou.github.io.git
+  TARGET_BRANCH: master
+  GIT_USER_EMAIL: y.t.zhou@foxmail.com
+  GIT_USER_NAME: ytZhou
 
 install:
   - node --version
