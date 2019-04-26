@@ -1,21 +1,21 @@
 clone_depth: 5
 
+branches:
+  only:
+  - files
 environment:
   access_token:
     secure: y6prA1/R/PTOi2faWPbGQ0JsZSW1KgRrzhL/xJjA0oqJEqQNIJeTvCNL78/KGn2S
-
 install:
+  - ps: Install-Product node 6.0 #原始环境的node 是4.x的版本，最好升级到最新的版本，防止Hexo的插件无法安装
   - node --version
   - npm --version
   - npm install
   - npm install hexo-cli -g
-
 build_script:
   - hexo generate
-
 artifacts:
   - path: public
-
 on_success:
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
@@ -27,5 +27,6 @@ on_success:
   - for /d %%p IN (*) do rmdir "%%p" /s /q
   - SETLOCAL EnableDelayedExpansion & robocopy "%APPVEYOR_BUILD_FOLDER%\public" "%TEMP%\static-site" /e & IF !ERRORLEVEL! EQU 1 (exit 0) ELSE (IF !ERRORLEVEL! EQU 3 (exit 0) ELSE (exit 1))
   - git add -A
-  - if "%APPVEYOR_REPO_BRANCH%"=="master" if not defined APPVEYOR_PULL_REQUEST_NUMBER (git diff --quiet --exit-code --cached || git commit -m "Update Static Site" && git push origin %TARGET_BRANCH% && appveyor AddMessage "Static Site Updated")
-
+  - git commit -m "Update Static Site"
+  - git push origin %TARGET_BRANCH%
+  - appveyor AddMessage "Static Site Updated"
